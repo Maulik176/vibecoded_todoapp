@@ -4,13 +4,18 @@ import { connectDB } from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
 const PORT = process.env.PORT || 5001; // Use PORT from .env or default to 5001
+const __dirname = path.resolve(); // Get the current directory name
 
-app.use(cors());
+if(process.env.NODE_ENV !== "production") {
+    app.use(cors());
+}
+
 app.use(express.json()); // Middleware to parse JSON request bodies.
 app.use(rateLimiter);
 
@@ -22,6 +27,14 @@ app.use(rateLimiter);
 //     next(); // Proceed to the next middleware or route handler
 // });
 app.use("/api/notes", notesRoutes);
+
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Serve static files from the frontend build directory
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend" ,"dist", "index.html")); // Serve index.html for all other routes
+});
+}
+
 
 connectDB().then(() => {
     app.listen(PORT, () => {
