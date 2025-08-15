@@ -208,13 +208,7 @@ For any architecture or API changes, open an issue first so we can discuss the d
 
 ## License
 
-This project doesn't include a license file. Add a `LICENSE` if you want others to reuse the code with permission terms.
+This project doesn't include a license file.
 
 ---
 
-If you want, I can also:
-- Add a `.env.example` with the required env keys (safe to commit)
-- Add a short CONTRIBUTING.md or CODE_OF_CONDUCT
-- Add simple API examples (curl) to the README
-
-Happy coding — tell me which extras you'd like and I'll add them.
